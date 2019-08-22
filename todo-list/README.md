@@ -5,7 +5,7 @@
 ### Template 컴포넌트 사용
 - `props`를 파라미터로 받는 대신 `비구조화 할당` 방식으로 `{form, children}`을 직접 할당 받는다.
 - 넘겨 받은 `form`과 `children`은 JSX 형태로 부모 컴포넌트에서 전달할 것
-```javascript
+```HTML
 <TodoListTemplate form={<div>이렇게 말이죠.</div>}>
     <div>여기엔 children 자리구요.</div>
 </TodoListTemplate>
@@ -32,3 +32,37 @@
 - `TodoItemList`는 `App`에 의해 호출될 것이고 `TodoItem` 컴포넌트를 자식으로 관리해야 하므로 무언가 중간 역할을 수행하게 된다.
   - 함수, 데이터 등을 `App`으로 부터 넘겨 받고, `TodoItem`으로 넘겨주는 등의 기능을 수행할 것이다.
   - 중간 역할 만을 수행하므로 따로 css 스타일링이 필요없다.
+
+### TodoItem의 구조
+```javascript
+class TodoItem extends Component {
+  render() {
+    const { text, checked, id, onToggle, onRemove } = this.props;
+
+    return (
+      <div className="todo-item" onClick={() => onToggle(id)}>
+        <div
+          className="remove"
+          onClick={e => {
+            e.stopPropagation(); // 이벤트 확산을 막아주는 기능 : onToggle 까지 실행되는 것을 막기 위해
+            onRemove(id);
+          }}
+        >
+          &times; {/* x 마크 삽입 */}
+        </div>
+        <div className={`todo-text ${checked && "checked"}`}>
+          <div>{text}</div>
+        </div>
+        {checked && <div className="check-mark">✓</div>}
+      </div>
+    );
+  }
+}
+```
+
+- `todolist`에서 하나의 리스트를 표현하는 기능을 한다.
+- 부모 컴포넌트로 부터 `text`, `checked`(체크 여부)를 넘녀 받아 각 리스트가 다르게 표현되며, `id`, `onToggle`, `onRemove`도 넘겨 받아 각 리스트 자신의 고유 `id`를 통해 `onToggle`, `onRemove` 함수를 실행시킨다.
+- `HTML`문법으로 유니코드 문자를 표현할수 있다. [예시](https://www.w3schools.com/charsets/ref_html_entities_4.asp)
+- `short-circuit`이라는 언어적 특성을 활용하여 (`&&` 연산에서 왼쪽이 `true`일 때만 오른쪽 구문으로 넘어감) `className`을 다르게 지정하도록 했다.
+- `e.stopPropagation()`를 통해 이벤트의 확산을 멈춤
+  - 필요한 이유 : `× 버튼(className="remove")`에 대한 JSX 태그인 `div`는 `onClick` prop을 갖고, 상위 태그인 `className="todo-item"`에 대한 `div`에도 `onClick` prop이 존재하기 때문에 하위 태그가 클릭되면 상위 태그의 `onClick`이벤트 또한 함께 발생한다. 그래서 `remove` 버튼이 클릭되었을 때는 해당 기능만 동작하도록 하기 위해서 `발생한 이벤트를 우선 정지시켜 버리는 방법`을 사용한다. 이후 해당 기능에 대한 함수만을 다시 호출하는 방식을 통해 `remove`에 대한 이벤트를 처리했다.

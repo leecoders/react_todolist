@@ -14,12 +14,12 @@ class TodoItem extends Component {
             onRemove(id);
           }}
         >
-          &times;
+          &times; {/* x 마크 삽입 */}
         </div>
         <div className={`todo-text ${checked && "checked"}`}>
           <div>{text}</div>
         </div>
-        {checked && <div className="check-mark">✓</div>}
+        {checked && <div className="check-mark">&#x2713;</div>}
       </div>
     );
   }
