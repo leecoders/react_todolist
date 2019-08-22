@@ -66,3 +66,18 @@ class TodoItem extends Component {
 - `short-circuit`이라는 언어적 특성을 활용하여 (`&&` 연산에서 왼쪽이 `true`일 때만 오른쪽 구문으로 넘어감) `className`을 다르게 지정하도록 했다.
 - `e.stopPropagation()`를 통해 이벤트의 확산을 멈춤
   - 필요한 이유 : `× 버튼(className="remove")`에 대한 JSX 태그인 `div`는 `onClick` prop을 갖고, 상위 태그인 `className="todo-item"`에 대한 `div`에도 `onClick` prop이 존재하기 때문에 하위 태그가 클릭되면 상위 태그의 `onClick`이벤트 또한 함께 발생한다. 그래서 `remove` 버튼이 클릭되었을 때는 해당 기능만 동작하도록 하기 위해서 `발생한 이벤트를 우선 정지시켜 버리는 방법`을 사용한다. 이후 해당 기능에 대한 함수만을 다시 호출하는 방식을 통해 `remove`에 대한 이벤트를 처리했다.
+
+## #2 상태관리
+
+### 다른 컴포넌트 간에 데이터 주고 받기
+예를 들어, `Form(input)`에서 할 일을 작성하고 `TodoItemList(todos)`에 추가한다고 하자.
+
+![피해야 할 방법](https://i.imgur.com/ckmex6Y.png)
+<br>각각 데이터를 갖는 방식으로 `Form`에서 만들어진 데이터를 `TodoItemList`로 보내는 방법을 생각할 수 있다. 하지만 이 방법은 구현이 복잡해지고 유지보수가 상당히 어렵다.
+
+![최적의 방법](https://i.imgur.com/nnYKPBo.png)
+<br>최적의 방법은 컴포넌트들이 부모를 통해 대화하도록 만드는 것이다.
+
+**어떻게 부모를 통해 대화할까?**
+1. `App`에서 `Form`과 `TodoItemList`로 `input`, `todos` 상태를 props로 넣어준다.
+2. 해당 데이터들을 업데이트하는 함수들 또한 각 컴포넌트에 props로 전달하여 부모 데이터를 업데이트하도록 한다.
