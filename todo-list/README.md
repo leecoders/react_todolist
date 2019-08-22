@@ -1,68 +1,34 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 알게된 내용
 
-## Available Scripts
+## #1 컴포넌트 구성하기
 
-In the project directory, you can run:
+### Template 컴포넌트 사용
+- `props`를 파라미터로 받는 대신 `비구조화 할당` 방식으로 `{form, children}`을 직접 할당 받는다.
+- 넘겨 받은 `form`과 `children`은 JSX 형태로 부모 컴포넌트에서 전달할 것
+```javascript
+<TodoListTemplate form={<div>이렇게 말이죠.</div>}>
+    <div>여기엔 children 자리구요.</div>
+</TodoListTemplate>
+```
+부모 컴포넌트에서 `TodoListTemplate`를 호출하면 `form` prop과 `TodoListTemplate` 태그 하위의 내용이 `children` prop으로 전달된다.
 
-### `npm start`
+- `Template 컴포넌트`는 컴포넌트의 사이즈가 커질 때 `모듈화`하기 위해 사용된다.
+  - 작은 요소를 분리해서 만든 것이 템플릿이 아니라 반대로 작은 요소를 담기 위해 큰 틀을 만들어둔다고 생각하면 된다.
+- 중요한 것은 `JSX`를 props로 전달할 수 있다는 것이다!
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### (CSS) `rem` 단위는 문서의 최상위 요소, 즉 html 요소의 크기의 몇 배인지 크기를 지정한다.
+- `em`과 `rem`은 `상대 크기`를 지정하는 속성이다.
+- `em`은 상위 요소를 기준으로 상대 크기를 지정한다.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### (CSS) `virtual DOM`이 아닌 실제 `DOM`의 `body`는 `index.html`에 있다. 그러므로 컴포넌트가 아닌 배경(?) 스타일은 `index.css`에서 정의한다.
+- 배경 색을 `index.css`에서 지정
 
-### `npm test`
+### 리액트에서 각 컴포넌트를 구현할 때의 개발 흐름
+![컴포넌트 개발 흐름](https://i.imgur.com/2K065x6.png)
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### (CSS) `flex` 개념 공부하기
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### TodoItem 컴포넌트를 담기 위해 TodoItemList 컴포넌트를 만든다.
+- `TodoItemList`는 `App`에 의해 호출될 것이고 `TodoItem` 컴포넌트를 자식으로 관리해야 하므로 무언가 중간 역할을 수행하게 된다.
+  - 함수, 데이터 등을 `App`으로 부터 넘겨 받고, `TodoItem`으로 넘겨주는 등의 기능을 수행할 것이다.
+  - 중간 역할 만을 수행하므로 따로 css 스타일링이 필요없다.
