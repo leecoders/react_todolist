@@ -1,0 +1,17 @@
+.palette {
+  display: flex;
+  justify-content: center;
+}
+
+.rectangle {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 1.2rem;
+  opacity: 0.6;
+}
+
+.rectangle:hover {
+  opacity: 0.9;
+}
