@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import "./TodoItem.css";
 
 class TodoItem extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.checked !== nextProps.checked;
+  }
+
   render() {
     const { text, checked, id, onToggle, onRemove } = this.props;
+
+    console.log(id); // 리렌더링 최적화 테스트용 코드
 
     return (
       <div className="todo-item" onClick={() => onToggle(id)}>

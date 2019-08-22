@@ -63,6 +63,8 @@ class App extends Component {
   handleRemove = id => {
     const { todos } = this.state;
 
+    const nextTodos = todos.filter(todo => todo.id !== id);
+
     this.setState({ todos: todos.filter(todo => todo.id !== id) });
   };
 
