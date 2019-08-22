@@ -81,3 +81,24 @@ class TodoItem extends Component {
 **어떻게 부모를 통해 대화할까?**
 1. `App`에서 `Form`과 `TodoItemList`로 `input`, `todos` 상태를 props로 넣어준다.
 2. 해당 데이터들을 업데이트하는 함수들 또한 각 컴포넌트에 props로 전달하여 부모 데이터를 업데이트하도록 한다.
+
+### 이벤트 객체는 많은 것을 담고 있다.
+- `onChange`, `onClick`, `onKeyPress` 등의 이벤트 발생 시 `이벤트 객체`가 인자로 전달되며 지정된 함수가 호출된다.
+  - `on...`이 이벤트 등록을 의미한다면 이러한 이벤트를 다루기 위해 `handle...`라는 이름을 통상적으로 사용한다.
+- `e.target`에는 해당 `input`의 `prop`들이 담겨 있어 `e.target.value`를 통해 `input`의 `value`인 문자열을 얻어낼 수 있다.
+- `e.key`에는 발생한 `키보드 이벤트`에 대해 어떤 키가 입력되었는지 정보가 담겨있다.
+  - `onKeyPress`라는 `키보드 이벤트`가 발생했을 때 입력된 키가 `Enter`인지 확인하도록 했다.
+  ```javascript
+  handleKeyPress = (e) => {
+    // 눌려진 키가 Enter 면 handleCreate 호출
+    if(e.key === 'Enter') {
+      this.handleCreate();
+    }
+  }
+  ```
+
+### 리액트의 배열을 state로 다룰 때 절대로 `push`가 아닌 `concat`을 사용해야 한다!
+- 이유 : `setState`에 변경하고자 하는 prop과 값들을 담은 새로운 객체를 전달하면 `state`에서 같은 이름의 prop(`key`)에 대해 `value`를 갈아 끼운다. 하지만 최적화를 위해 값을 비교하여 변경된 값에 대해서만 리렌더링을 진행하게 된다. `push` 명령은 배열을 같은 참조값으로 반환시키기 때문에 리액트가 바뀐 값이라고 인지하지 못하여 값은 업데이트되었지만 리렌더링은 진행되지 않는다.
+- `concat`은 새로운 배열을 반환하기 때문에 리액트가 인지할 수 있다.
+
+### 크롬 확장 프로그램 `리액트 개발자 도구` -> F12 -> Components 탭에서 각 컴포넌트에 대한 정보를 상세히 확인할 수 있다.
