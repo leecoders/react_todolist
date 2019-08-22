@@ -102,3 +102,44 @@ class TodoItem extends Component {
 - `concat`은 새로운 배열을 반환하기 때문에 리액트가 인지할 수 있다.
 
 ### 크롬 확장 프로그램 `리액트 개발자 도구` -> F12 -> Components 탭에서 각 컴포넌트에 대한 정보를 상세히 확인할 수 있다.
+![리액트개발자도구](https://user-images.githubusercontent.com/47619140/63509606-86eb5480-c517-11e9-8f8e-10cc94bab82c.png)
+- 컴포넌트의 `props`, `state`, `context` 전부 확인 가능하다.
+
+### CSS) `opacity` 속성을 통해 `hover` 상태일 때만 화면에 나타나도록 하기
+- `opacity` 속성은 `0.0` ~ `1.0`의 범위를 지정할 수 있으며, 기본값으로 `1.0`(불투명도 100%)를 갖는다.
+```css
+...
+.todo-item:hover .remove {
+  opacity: 1;
+}
+
+.remove {
+  margin-right: 1rem;
+  color: #e64980;
+  font-weight: 600;
+  opacity: 0;
+}
+...
+```
+- `todo-item`이 `hover` 상태일 때 하위 `.remove` class를 `opacity: 1;`를 통해 불투명도 100%로 지정했다.
+- `.remove` class는 보통 상태에서의 스타일을 지정하며 `opacity: 0;`를 통해 완전 투명하게 지정하여 보통 상태에서는 보이지 않도록 지정했다.
+
+### `비구조화 할당`을 유용하게 사용
+
+```javascript
+  const todoList = todos.map(({ id, text, checked }) => (
+    <TodoItem
+    id={id}
+    text={text}
+    checked={checked}
+    onToggle={onToggle}
+    onRemove={onRemove}
+    key={id}
+    />
+  ));
+```
+`todos.map`의 콜백에서 넘겨 받는 파라미터는 `id`, `text`, `checked`를 갖는 `todo`객체지만 각 prop을 `비구조화 할당`으로 직접 넘겨 받도록 했다.
+
+### 배열을 각 요소를 넘기며 자식 컴포넌트들을 렌더링할 때는 `key` prop이 필요하다.
+- `key`가 있어야 리액트가 컴포넌트들을 리렌더링할 때 더욱 효율적으로 작동된다. (최적화)
+- `map`의 `index`를 `key`로 넘기곤 하지만 권장되는 방법은 아니다..
