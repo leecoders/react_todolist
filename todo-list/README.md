@@ -143,3 +143,44 @@ class TodoItem extends Component {
 ### 배열을 각 요소를 넘기며 자식 컴포넌트들을 렌더링할 때는 `key` prop이 필요하다.
 - `key`가 있어야 리액트가 컴포넌트들을 리렌더링할 때 더욱 효율적으로 작동된다. (최적화)
 - `map`의 `index`를 `key`로 넘기곤 하지만 권장되는 방법은 아니다..
+
+### 배열의 삭제는 `Array.prototype.filter`를 통해 쉽게 구현 가능
+- `state`는 수정하면 안된다고 했지만 `filter`를 거치면 새로운 배열이 반환됨
+
+### 배열의 수정은 어떻게 할까? `전개 연산자`를 활용하여 쉽게 복사!
+- `App`의 `state`인 `todos` 배열의 각 요소(`todo`객체)의 `select` prop을 toggle한 뒤 `setState`하고자 한다면 배열 내부를 수정해서는 값(배열)이 달라지지 않았기 때문에 리렌더링이 발생하지 않는다.
+- 그러므로 새로운 배열을 만들어야 한다!
+
+```javascript
+  handleToggle = id => {
+    const { todos } = this.state;
+
+    const index = todos.findIndex(todo => todo.id === id);
+    const selected = todos[index];
+
+    const nextTodos = [...todos]; // 전개 연산자를 통해 배열을 복사(수정하면 안되니까)
+
+    nextTodos[index] = {
+      ...selected,
+      checked: !selected.checked
+    };
+
+    this.setState({
+      todos: nextTodos
+    });
+  };
+```
+`전개 연산자`를 쓰면 객체의 각 요소에 접근하여 반환해 준다고 했다. 배열에도 먹힌다. `const nextTodos = [...todos];`를 통해 간단히 복사한 뒤 다시 한 번 객체 내에서 `전개 연산자`를 활용하여 객체를 수정했다. 마지막으로 `setState`에는 변경된 `nextTodos`를 전달했다.
+
+<br>배열에는 `findIndex`라는 함수도 있었다!
+
+**결론 : `전개 연산자`를 유용하게 활용하자!**
+
+### 컴포넌트 최적화
+- 최하위 컴포넌트의 `render`에서 `id`를 `console.log`로 출력하여 어느 기능에 대해 어느 컴포넌트가 리렌더링되는지 확인한다.
+- 리렌더링될 때 컴포넌트를 렌더링하게 되면 하위 컴포넌트까지 모두 렌더링된다.
+- 변하지 않은 컴포넌트를 렌더링되지 않도록 최적화시킬 수 있다.
+- `shouldComponentUpdate`를 활용하여 리렌더링되어야 하는지 `true`/`false`를 `return`한다.
+- 컴포넌트를 최적화할 수 있는 경우를 찾아본다.
+1. `onChange` 이벤트 발생 시 `setState`로 인해 `App`이 리렌더링된다. -> `state`는 수정되어야 하므로 `setState`까지만 실행되도록 하고 `App`의 다른 컴포넌트들은 리렌더링되지 않도록 할 수 있다.
+2. `onCreate`, `onRemove`, `onRemove`, `onToggle` 이벤트 발생 시 `TodoItemList`가 리렌더링되어야 하지만 변하지 않은 `TodoItem`까지 전부 리렌더링될 필요는 없다. -> `TodoItem`에서 `checked`를 비교해서 수정되지 않았으면 리렌더링되지 않도록 할 수 있다.
