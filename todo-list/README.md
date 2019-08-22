@@ -172,7 +172,7 @@ class TodoItem extends Component {
 ```
 `전개 연산자`를 쓰면 객체의 각 요소에 접근하여 반환해 준다고 했다. 배열에도 먹힌다. `const nextTodos = [...todos];`를 통해 간단히 복사한 뒤 다시 한 번 객체 내에서 `전개 연산자`를 활용하여 객체를 수정했다. 마지막으로 `setState`에는 변경된 `nextTodos`를 전달했다.
 
-<br>배열에는 `findIndex`라는 함수도 있었다!
+#### 배열에는 `findIndex`라는 함수도 있었다!
 
 **결론 : `전개 연산자`를 유용하게 활용하자!**
 
