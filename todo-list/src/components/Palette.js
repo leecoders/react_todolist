@@ -1,11 +1,12 @@
 import React from "react";
 import "./Palette.css";
 
-const Palette = ({ colors, onChangeColor }) => {
+const Palette = ({ colors, opacities, onChangeColor }) => {
   const style = [];
-  colors.forEach(color => {
+  colors.map((color, idx) => {
     style.push({
-      background: color
+      background: color,
+      opacity: opacities[idx]
     });
   });
 
@@ -14,7 +15,9 @@ const Palette = ({ colors, onChangeColor }) => {
       {colors.map((color, idx) => (
         <div
           className="rectangle"
-          onClick={() => onChangeColor(idx)}
+          onClick={() => {
+            onChangeColor(idx);
+          }}
           key={idx}
           id={idx}
           style={style[idx]}

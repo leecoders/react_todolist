@@ -3,7 +3,7 @@
   justify-content: center;
 }
 
-.rectangle {
+.rectangle-gg {
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;
@@ -11,6 +11,15 @@
   margin-left: 1.2rem;
   opacity: 0.6;
 }
+
+/* .rectangle {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 1.2rem;
+  opacity: 0.6;
+} */
 
 .rectangle:hover {
   opacity: 0.9;
