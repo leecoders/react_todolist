@@ -6,21 +6,22 @@ import Palette from "./components/Palette";
 
 class App extends Component {
   id = 3;
+  colors = ["#343a40", "#f03e3e", "#12b886", "#228ae6"];
 
   state = {
     input: "",
     todos: [
-      { id: 0, text: "리액트 소개", checked: false },
-      { id: 1, text: "리액트 소개", checked: true },
-      { id: 2, text: "리액트 소개", checked: false }
+      { id: 0, text: "리액트 소개", checked: false, color: "#343a40" },
+      { id: 1, text: "리액트 소개", checked: true, color: "#343a40" },
+      { id: 2, text: "리액트 소개", checked: false, color: "#343a40" }
     ],
     color: "#343a40"
   };
 
-  handleChangeColor = id => {
-    const { color } = this.state;
+  handleChangeColor = idx => {
+    const nextColor = this.colors[idx];
     this.setState({
-      color: color
+      color: nextColor
     });
   };
 
@@ -33,13 +34,14 @@ class App extends Component {
 
   handleCreate = () => {
     // 추가 버튼이 클릭되었을 때
-    const { input, todos } = this.state;
+    const { input, todos, color } = this.state;
     this.setState({
       input: "",
       todos: todos.concat({
         id: this.id++,
         text: input,
-        checked: false
+        checked: false,
+        color: color
       })
     });
   };
@@ -71,9 +73,6 @@ class App extends Component {
 
   handleRemove = id => {
     const { todos } = this.state;
-
-    const nextTodos = todos.filter(todo => todo.id !== id);
-
     this.setState({ todos: todos.filter(todo => todo.id !== id) });
   };
 
@@ -95,10 +94,11 @@ class App extends Component {
             onKeyPress={handleKeyPress}
             onChange={handleChange}
             onCreate={handleCreate}
+            color={color}
           />
         }
         palette={
-          <Palette colors={["#343a40", "#f03e3e", "#12b886", "#228ae6"]} />
+          <Palette colors={this.colors} onChangeColor={handleChangeColor} />
         }
       >
         <TodoItemList

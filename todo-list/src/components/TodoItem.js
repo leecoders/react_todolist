@@ -7,7 +7,10 @@ class TodoItem extends Component {
   }
 
   render() {
-    const { text, checked, id, onToggle, onRemove } = this.props;
+    const { text, checked, color, id, onToggle, onRemove } = this.props;
+    const style = {
+      color: color
+    };
 
     console.log(id); // 리렌더링 최적화 테스트용 코드
 
@@ -23,7 +26,7 @@ class TodoItem extends Component {
           &times; {/* x 마크 삽입 */}
         </div>
         <div className={`todo-text ${checked && "checked"}`}>
-          <div>{text}</div>
+          <div style={`color: ${color}`}>{text}</div>
         </div>
         {checked && <div className="check-mark">&#x2713;</div>}
       </div>

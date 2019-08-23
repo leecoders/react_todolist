@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Palette.css";
 
 const Palette = ({ colors, onChangeColor }) => {
@@ -14,7 +14,7 @@ const Palette = ({ colors, onChangeColor }) => {
       {colors.map((color, idx) => (
         <div
           className="rectangle"
-          onClick={onChangeColor}
+          onClick={() => onChangeColor(idx)}
           key={idx}
           id={idx}
           style={style[idx]}
