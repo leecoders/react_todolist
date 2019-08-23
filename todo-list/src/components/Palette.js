@@ -5,8 +5,8 @@ const Palette = ({ colors, opacities, onChangeColor }) => {
   const style = [];
   colors.map((color, idx) => {
     style.push({
-      background: color,
-      opacity: opacities[idx]
+      background: color
+      // opacity: opacities[idx] // 이 부분 수정해야할 듯
     });
   });
 
