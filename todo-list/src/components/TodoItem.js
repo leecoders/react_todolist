@@ -15,7 +15,7 @@ class TodoItem extends Component {
     console.log(id); // 리렌더링 최적화 테스트용 코드
 
     return (
-      <div className="todo-item" onClick={() => onToggle(id)}>
+      <div style={style} className="todo-item" onClick={() => onToggle(id)}>
         <div
           className="remove"
           onClick={e => {
@@ -26,7 +26,7 @@ class TodoItem extends Component {
           &times; {/* x 마크 삽입 */}
         </div>
         <div className={`todo-text ${checked && "checked"}`}>
-          <div style={`color: ${color}`}>{text}</div>
+          <div>{text}</div>
         </div>
         {checked && <div className="check-mark">&#x2713;</div>}
       </div>
