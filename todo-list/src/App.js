@@ -7,7 +7,7 @@ import Palette from "./components/Palette";
 class App extends Component {
   id = 3;
   colors = ["#343a40", "#f03e3e", "#12b886", "#228ae6"];
-  opacities = [0.6, 0.6, 0.6, 0.6];
+  isColorClicked = [false, false, false, false];
 
   state = {
     input: "",
@@ -21,10 +21,10 @@ class App extends Component {
 
   handleChangeColor = idx => {
     const nextColor = this.colors[idx];
-    for (let i = 0; i < this.opacities.length; ++i) {
-      this.opacities[i] = 0.6;
+    for (let i = 0; i < this.isColorClicked.length; ++i) {
+      this.isColorClicked[i] = false;
     }
-    this.opacities[idx] = 1.0;
+    this.isColorClicked[idx] = true;
     this.setState({
       color: nextColor
     });
@@ -105,7 +105,7 @@ class App extends Component {
         palette={
           <Palette
             colors={this.colors}
-            opacities={this.opacities}
+            isColorClicked={this.isColorClicked}
             onChangeColor={handleChangeColor}
           />
         }

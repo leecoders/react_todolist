@@ -1,12 +1,11 @@
 import React from "react";
 import "./Palette.css";
 
-const Palette = ({ colors, opacities, onChangeColor }) => {
+const Palette = ({ colors, isColorClicked, onChangeColor }) => {
   const style = [];
   colors.map((color, idx) => {
     style.push({
       background: color
-      // opacity: opacities[idx] // 이 부분 수정해야할 듯
     });
   });
 
@@ -14,7 +13,7 @@ const Palette = ({ colors, opacities, onChangeColor }) => {
     <div className="palette">
       {colors.map((color, idx) => (
         <div
-          className="rectangle"
+          className={`${isColorClicked[idx] ? "clicked" : "rectangle"}`}
           onClick={() => {
             onChangeColor(idx);
           }}
